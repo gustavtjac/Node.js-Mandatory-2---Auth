@@ -7,7 +7,6 @@ app.use(express.json())
 
 
 import cors from 'cors'
-
 app.use(cors({
     origin: "http://localhost:5173",
     credentials: true
@@ -29,7 +28,7 @@ const authLimiter = rateLimit({
     legacyHeaders: false,
     ipv6Subnet: 56
 });
-app.use('/auth', authLimiter)
+app.use('/auth', authLimiter);
 
 const generalLimiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
@@ -39,11 +38,15 @@ const generalLimiter = rateLimit({
 	ipv6Subnet: 56, // Set to 60 or 64 to be less aggressive, or 52 or 48 to be more aggressive
 });
 
-app.use(generalLimiter)
+app.use(generalLimiter);
 
 // Express middleware
 import helmet from 'helmet'
 app.use(helmet())
+
+import authRouter from './routers/authRouter.js'
+app.use('/auth', authRouter)
+
 
 app.get('/{*splat}', (req, res) => {
     res.send('<div><h1>404</h1><h3>page' + req.path + 'doesnt exist</h3> </div>');
