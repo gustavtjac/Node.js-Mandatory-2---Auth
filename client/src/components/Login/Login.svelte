@@ -1,10 +1,27 @@
 <script>
-  let email = '';
-  let password = '';
+  import { fetchPost } from "../../util/fetchUtil.js";
+  let username = "";
+  let password = "";
   let submitted = false;
 
-  function handleSubmit() {
+  async function handleSubmit() {
     submitted = true;
+
+    try {
+      const result = await fetchPost("/auth/login", {
+        username,
+        password,
+      });
+
+      console.log(result);
+      //SKIFT MED CUSTOM ALARM
+      //TILFØJ AT DER ER FRONTEND AUTH
+      //REDIRECT TIL DASHBOARD
+      alert(result.data.successMessage);
+    } catch (error) {
+      //SKIFT MED CUSTOM ALARM
+      alert(error.data.errorMessage);
+    }
   }
 </script>
 
@@ -15,15 +32,26 @@
   </header>
 
   <form on:submit|preventDefault={handleSubmit}>
-    <label for="email">Email</label>
-    <input id="email" type="email" bind:value={email} placeholder="gustavo@roque.com" autocomplete="email" required />
+    <label for="username">Email</label>
+    <input
+      id="username"
+      type="username"
+      bind:value={username}
+      placeholder="Username"
+      required
+    />
 
     <label for="password">Password</label>
-    <input id="password" type="password" bind:value={password} autocomplete="current-password" required/>
+    <input
+      id="password"
+      type="password"
+      bind:value={password}
+      autocomplete="current-password"
+      required
+    />
 
     <button type="submit">
-      {submitted ? 'Signing in…' : 'Sign in'}
+      {submitted ? "Signing in…" : "Sign in"}
     </button>
   </form>
-
 </section>

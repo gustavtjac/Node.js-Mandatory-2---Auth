@@ -7,9 +7,7 @@
   let submitted = false;
 
   function handleSubmit() {
-    submitted = true;
-
-    
+    submitted = true;    
   }
 </script>
 

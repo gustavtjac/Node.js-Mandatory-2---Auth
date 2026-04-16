@@ -23,9 +23,14 @@ export async function fetchPost(endpoint, body) {
             body: JSON.stringify(body)
         });
 
+        if(!response.ok){
+            throw await response.json();
+        }
+
         return await response.json();
     } catch (error) {
         console.log(error)
+        throw error;
     }
 
 }
