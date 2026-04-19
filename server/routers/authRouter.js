@@ -3,6 +3,8 @@ const router = Router();
 
 import db from '../database/connection.js'
 
+import { sendRegisterMail } from '../utils/emailUtil.js';
+
 import { compareHashedPassords, hashPassword } from '../utils/passwordHashing.js';
 
 router.post('/login', async (req, res) => {
@@ -42,9 +44,11 @@ router.post('/login', async (req, res) => {
     const { password: _, ...safeUser } = foundUserFromDatabase;
     req.session.user = safeUser;
 
-    res.status(200).send({ data: {
-        successMessage: "Login succesfull"
-    }});
+    res.status(200).send({
+        data: {
+            successMessage: "Login succesfull"
+        }
+    });
 });
 
 
@@ -68,38 +72,46 @@ router.post('/register', async (req, res) => {
         });
     }
 
-    //Check if username exists already
-    const usersWithUsernameFromDatabase = await db.all('SELECT username FROM users WHERE username = ?',[username])
+    try {
+        //Check if username exists already
+        const usersWithUsernameFromDatabase = await db.all('SELECT username FROM users WHERE username = ?', [username])
 
-    console.log(usersWithUsernameFromDatabase)
+        console.log(usersWithUsernameFromDatabase)
 
-    if(usersWithUsernameFromDatabase.length > 0){
-        return res.status(409).send({
-            data: {
-                errorMessage: "Username already exists"
-            }
-        });
-    }
+        if (usersWithUsernameFromDatabase.length > 0) {
+            return res.status(409).send({
+                data: {
+                    errorMessage: "Username already exists"
+                }
+            });
+        }
 
-    const hashedPassword = await hashPassword(password1);
+        const hashedPassword = await hashPassword(password1);
 
-    try{
+
         await db.run(
-        'INSERT INTO users (username, first_name, last_name, password, email) VALUES (?,?,?,?,?)', 
-        [username, firstName, lastName, hashedPassword, email]
-    );
-    }catch(error){
-return res.status(500).send({
+            'INSERT INTO users (username, first_name, last_name, password, email) VALUES (?,?,?,?,?)',
+            [username, firstName, lastName, hashedPassword, email]
+        );
+
+
+        sendRegisterMail(email).catch(error => {
+
+        });
+
+        return res.status(201).send({
             data: {
-                errorMessage: "Something went wrong while saving to database"
+                successMessage: "Account registered"
             }
         });
 
-    }
-   
-    res.status(201).send({ data: {
-        successMessage: "Account registered"
-    }})
+    } catch (error) {
+        return res.status(500).send({
+            data: {
+                errorMessage: "Something went wrong, please try again"
+            }
+        });
+    };
 });
 
 
