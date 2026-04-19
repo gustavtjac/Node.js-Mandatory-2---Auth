@@ -114,5 +114,19 @@ router.post('/register', async (req, res) => {
     };
 });
 
+router.get('/me', (req, res) => {
+    if (req.session.user) {
+        res.status(200).json({ data: {
+            user: {
+                ...req.session.user
+            }
+        }});
+    } else {
+        res.status(401).json({data : {
+            user : null
+        }});
+    }
+});
+
 
 export default router;

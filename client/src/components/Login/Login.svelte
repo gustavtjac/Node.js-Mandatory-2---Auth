@@ -1,5 +1,6 @@
 <script>
   import { fetchPost } from "../../util/fetchUtil.js";
+  import { navigate } from 'svelte-routing';
   import { toast } from 'svelte-sonner'
   let username = "";
   let password = "";
@@ -13,12 +14,9 @@
         username,
         password,
       });
-      //SKIFT MED CUSTOM ALARM
-      //TILFØJ AT DER ER FRONTEND AUTH
-      //REDIRECT TIL DASHBOARD
-      toast.success(result.data.successMessage)
+      toast.success(result.data.successMessage);
+      navigate('/dashboard');
     } catch (error) {
-      //SKIFT MED CUSTOM ALARM
       toast.error(error.data.errorMessage)
     }
   }

@@ -35,7 +35,7 @@ const authLimiter = rateLimit({
     legacyHeaders: false,
     ipv6Subnet: 56
 });
-app.use('/auth', authLimiter);
+/* app.use('/auth', authLimiter); */
 // A general more foregiving rate limit on all other endpoints
 const generalLimiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes

@@ -2,10 +2,17 @@
     import Navbar from "../../components/Nav/Navbar.svelte";
     import Login from "../../components/Login/Login.svelte";
     import Register from "../../components/Register/Register.svelte";
+    import { user } from '../../stores/userStore.js';
+    import { onMount } from "svelte";
+    import { navigate } from "svelte-routing";
 
   let view = 'login';
-
-
+  onMount(() => {
+    if($user){
+      navigate('/dashboard')
+    }
+  });
+  
 
 </script>
 

@@ -5,9 +5,15 @@ export async function fetchGet(endpoint) {
         const response = await fetch(BASE_URL + endpoint, {
             credentials: 'include'
         });
+
+
+        if(!response.ok){
+            throw await response.json();
+        }
+
         return await response.json();
     } catch (error) {
-        console.log(error)
+        throw error;
     };
 }
 
