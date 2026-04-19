@@ -1,5 +1,6 @@
 <script>
   import { fetchPost } from "../../util/fetchUtil.js";
+  import { toast } from 'svelte-sonner'
   let username = "";
   let password = "";
   let submitted = false;
@@ -12,15 +13,13 @@
         username,
         password,
       });
-
-      console.log(result);
       //SKIFT MED CUSTOM ALARM
       //TILFØJ AT DER ER FRONTEND AUTH
       //REDIRECT TIL DASHBOARD
-      alert(result.data.successMessage);
+      toast.success(result.data.successMessage)
     } catch (error) {
       //SKIFT MED CUSTOM ALARM
-      alert(error.data.errorMessage);
+      toast.error(error.data.errorMessage)
     }
   }
 </script>

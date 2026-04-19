@@ -2,10 +2,9 @@ import { Router } from 'express'
 const router = Router();
 
 import db from '../database/connection.js'
-
 import { sendRegisterMail } from '../utils/emailUtil.js';
-
 import { compareHashedPassords, hashPassword } from '../utils/passwordHashing.js';
+import logger from '../utils/LoggerUtil.js';
 
 router.post('/login', async (req, res) => {
 
@@ -20,7 +19,7 @@ router.post('/login', async (req, res) => {
             }
         });
     }
-
+  
     const foundUserFromDatabase = (
         await db.all('SELECT * FROM users WHERE username = ?', [username]))[0]
 
@@ -96,7 +95,7 @@ router.post('/register', async (req, res) => {
 
 
         sendRegisterMail(email).catch(error => {
-
+            logger.error({ error }, 'Register email failed')
         });
 
         return res.status(201).send({
@@ -106,6 +105,7 @@ router.post('/register', async (req, res) => {
         });
 
     } catch (error) {
+        logger.error({ error }, 'Error while registering user')
         return res.status(500).send({
             data: {
                 errorMessage: "Something went wrong, please try again"
