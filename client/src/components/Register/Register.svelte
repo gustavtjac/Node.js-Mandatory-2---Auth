@@ -1,4 +1,9 @@
 <script>
+  import { fetchPost } from "../../util/fetchUtil.js";
+  import { toast } from 'svelte-sonner';
+  import { navigate } from 'svelte-routing';
+
+  let username = '';
   let firstName = '';
   let lastName = '';
   let email = '';
@@ -6,8 +11,24 @@
   let confirmPassword = '';
   let submitted = false;
 
-  function handleSubmit() {
-    submitted = true;    
+  async function handleSubmit(event) {
+    event.preventDefault();
+    submitted = true;
+    try {
+      const result = await fetchPost("/auth/register", {
+        username,
+        firstName,
+        lastName,
+        email,
+        password1: password,
+        password2: confirmPassword,
+      });
+      toast.success(result.data.successMessage);
+      navigate('/login');
+    } catch (error) {
+      submitted = false;
+      toast.error(error.data.errorMessage);
+    }
   }
 </script>
 
@@ -17,7 +38,10 @@
     <p>Sign up to get started</p>
   </header>
 
-  <form on:submit|preventDefault={handleSubmit}>
+  <form onsubmit={handleSubmit}>
+    <label for="username">Username</label>
+    <input id="username" type="text" bind:value={username} placeholder="gustavo1969" autocomplete="username" required />
+
     <fieldset>
       <legend>Your name</legend>
       <label for="first-name">First name</label>
@@ -37,7 +61,7 @@
     <input id="confirm-password" type="password" bind:value={confirmPassword} autocomplete="new-password" required />
 
     <button type="submit">
-      {submitted ? 'Account created' : 'Create account'}
+      {submitted ? 'Creating account…' : 'Create account'}
     </button>
   </form>
 </section>

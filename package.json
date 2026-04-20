@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "install:all": "cd client && npm install && cd ../server && npm install",
+    "build:client": "cd client && npm run build",
+    "start": "cd server && npm run start-dev",
+    "setup": "npm run install:all && npm run build:client && npm run start",
+    "lint": "cd client && npm run lint && cd ../server && npm run lint"
+  }
+}

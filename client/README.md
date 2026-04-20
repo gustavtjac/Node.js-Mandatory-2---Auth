@@ -1,43 +1,43 @@
-# Svelte + Vite
+# Client
 
-This template should help get you started developing with Svelte in Vite.
+Svelte 5 frontend built with Vite. Handles user registration, login, and a protected dashboard.
 
-## Recommended IDE Setup
+## Pages & Routes
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+| Path | Component | Access |
+|---|---|---|
+| `/` | `Landing` | Public |
+| `/login` | `Auth` (login view) | Guests only |
+| `/register` | `Auth` (register view) | Guests only |
+| `/dashboard` | `Home` | Authenticated only |
 
-## Need an official Svelte framework?
+Route access is enforced by `RouteGuard`, which redirects based on session state from the `user` store.
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+## State
 
-## Technical considerations
+`userStore.js` holds two writable stores:
 
-**Why use this over SvelteKit?**
+- `user` — the current session user, or `null`
+- `authReady` — `true` once the initial `/auth/me` check has resolved
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+`checkAuth()` is called on app mount and populates these stores.
 
-This template contains as little as possible to get started with Vite + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
+## Tech Stack
 
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
+- [Svelte 5](https://svelte.dev)
+- [Vite](https://vitejs.dev)
+- [svelte-routing](https://github.com/EmilTholin/svelte-routing) — client-side routing
+- [svelte-sonner](https://github.com/wobsoriano/svelte-sonner) — toast notifications
 
-**Why include `.vscode/extensions.json`?**
+## Scripts
 
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
-
-**Why enable `checkJs` in the JS template?**
-
-It is likely that most cases of changing variable types in runtime are likely to be accidental, rather than deliberate. This provides advanced typechecking out of the box. Should you like to take advantage of the dynamically-typed nature of JavaScript, it is trivial to change the configuration.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/sveltejs/svelte-hmr/tree/master/packages/svelte-hmr#preservation-of-local-state).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
-
-```js
-// store.js
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
+```bash
+npm run dev       # Start dev server (http://localhost:5173)
+npm run build     # Build for production → dist/
+npm run preview   # Preview production build
+npm run lint      # Run ESLint
 ```
+
+## Environment Variables
+
+Create a `.env` file in this directory if you need to override the API base URL or similar. See `.env.example` for reference.

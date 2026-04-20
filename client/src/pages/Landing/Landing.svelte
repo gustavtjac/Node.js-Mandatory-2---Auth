@@ -31,6 +31,6 @@
     <section>
         <h2>Ready to build your collection?</h2>
         <p>Join for free and start rating your Switch games today.</p>
-        <a href="/auth">Create an account</a>
+        <a href="/register">Create an account</a>
     </section>
 </main>

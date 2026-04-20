@@ -2,14 +2,15 @@ import { writable } from 'svelte/store';
 import { fetchGet } from '../util/fetchUtil.js';
 
 export const user = writable(null);
+export const authReady = writable(false);
 
 export async function checkAuth() {
     try {
-        const data = await fetchGet('/auth/me');
-        user.set(data?.data?.user ?? null);
-        return data?.data?.user ?? null;
+        const result = await fetchGet('/auth/me');
+        user.set(result?.data?.user ?? null);
     } catch {
         user.set(null);
-        return null;
+    } finally {
+        authReady.set(true);
     }
-}
+};

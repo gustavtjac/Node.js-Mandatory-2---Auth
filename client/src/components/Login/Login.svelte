@@ -2,11 +2,13 @@
   import { fetchPost } from "../../util/fetchUtil.js";
   import { navigate } from 'svelte-routing';
   import { toast } from 'svelte-sonner'
+  import { checkAuth } from "../../stores/userStore.js";
   let username = "";
   let password = "";
   let submitted = false;
 
-  async function handleSubmit() {
+  async function handleSubmit(event) {
+    event.preventDefault();
     submitted = true;
 
     try {
@@ -14,12 +16,14 @@
         username,
         password,
       });
+      await checkAuth();
       toast.success(result.data.successMessage);
       navigate('/dashboard');
     } catch (error) {
       toast.error(error.data.errorMessage)
     }
-  }
+  };
+
 </script>
 
 <section aria-labelledby="login-heading">
@@ -28,8 +32,8 @@
     <p>Welcome back</p>
   </header>
 
-  <form on:submit|preventDefault={handleSubmit}>
-    <label for="username">Email</label>
+  <form onsubmit={handleSubmit}>
+    <label for="username">Username</label>
     <input
       id="username"
       type="username"

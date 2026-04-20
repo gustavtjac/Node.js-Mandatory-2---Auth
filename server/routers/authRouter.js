@@ -5,6 +5,7 @@ import db from '../database/connection.js'
 import { sendRegisterMail } from '../utils/emailUtil.js';
 import { compareHashedPassords, hashPassword } from '../utils/passwordHashing.js';
 import logger from '../utils/LoggerUtil.js';
+import { isLoggedIn } from '../middleWare/authMiddleWare.js';
 
 router.post('/login', async (req, res) => {
 
@@ -40,7 +41,7 @@ router.post('/login', async (req, res) => {
             }
         });
     }
-    const { password: _, ...safeUser } = foundUserFromDatabase;
+    const { _password, ...safeUser } = foundUserFromDatabase;
     req.session.user = safeUser;
 
     res.status(200).send({
@@ -114,18 +115,13 @@ router.post('/register', async (req, res) => {
     };
 });
 
-router.get('/me', (req, res) => {
-    if (req.session.user) {
-        res.status(200).json({ data: {
-            user: {
-                ...req.session.user
-            }
-        }});
-    } else {
-        res.status(401).json({data : {
-            user : null
-        }});
-    }
+router.get('/me', isLoggedIn, (req, res) => {
+   res.status(200).json({ data: { user: { ...req.session.user } } });
+});
+
+router.post('/logout', isLoggedIn, (req, res) => {
+    req.session.destroy();
+    res.status(200).json({ data: { successMessage: "Logged out" } });
 });
 
 

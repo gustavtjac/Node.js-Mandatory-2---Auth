@@ -1,26 +1,22 @@
 <script>
 import { onMount } from 'svelte';
 import { Toaster } from "svelte-sonner";
-import { Router, Link, Route, navigate } from "svelte-routing";
+import { Router, Route } from "svelte-routing";
 import Home from "./pages/Homepage/Home.svelte";
 import Auth from "./pages/Auth/Auth.svelte";
 import Landing from "./pages/Landing/Landing.svelte";
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.svelte';
+import RouteGuard from './components/RouteGuard/RouteGuard.svelte';
+import { checkAuth } from './stores/userStore.js';
+
+onMount(() => checkAuth());
 
 </script>
 <Toaster/>
 <Router>
   <div>
-    <Route path='/'>
-      <Landing/>
-    </Route>
-    <Route path='/auth'>
-      <Auth/>
-    </Route>
-    <Route path='/dashboard'>
-      <ProtectedRoute>
-        <Home/>
-      </ProtectedRoute>
-    </Route>
+    <Route path='/'><Landing/></Route>
+<Route path='/login'><RouteGuard requireAuth={false}><Auth view="login"/></RouteGuard></Route>
+<Route path='/register'><RouteGuard requireAuth={false}><Auth view="register"/></RouteGuard></Route>
+<Route path='/dashboard'><RouteGuard requireAuth={true}><Home/></RouteGuard></Route>
   </div>
 </Router>

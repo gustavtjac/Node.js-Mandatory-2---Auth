@@ -7,16 +7,19 @@ export async function fetchGet(endpoint) {
         });
 
 
-        if(!response.ok){
+        if (!response.ok) {
             throw await response.json();
         }
 
         return await response.json();
     } catch (error) {
-        throw error;
-    };
-}
-
+        if (error?.data?.errorMessage) {
+            throw error;
+        } else {
+            throw { data: { errorMessage: "Server down error" } };
+        }
+    }
+};
 
 export async function fetchPost(endpoint, body) {
     try {
@@ -29,14 +32,16 @@ export async function fetchPost(endpoint, body) {
             body: JSON.stringify(body)
         });
 
-        if(!response.ok){
+        if (!response.ok) {
             throw await response.json();
         }
 
         return await response.json();
     } catch (error) {
-        console.log(error)
-        throw error;
+        if (error?.data?.errorMessage) {
+            throw error;
+        } else {
+            throw { data: { errorMessage: "Server down error" } };
+        }
     }
-
 }
