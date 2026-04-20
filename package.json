@@ -1,9 +1,15 @@
 {
   "scripts": {
-    "install:all": "cd client && npm install && cd ../server && npm install",
+    "install:all": "cd client && npm install && cd ../server && npm install && cd ../ npm install",
     "build:client": "cd client && npm run build",
-    "start": "cd server && npm run start-dev",
-    "setup": "npm run install:all && npm run build:client && npm run start",
-    "lint": "cd client && npm run lint && cd ../server && npm run lint"
+    "start:dev": "cd server && npm run start-dev",
+    "start:prod": "cd server && npm run start-prod",
+    "setup": "npm run install:all && npm run build:client",
+    "lint": "cd client && npm run lint && cd ../server && npm run lint",
+    "format": "prettier --write client/src server"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.3",
+    "prettier-plugin-svelte": "^3.5.1"
   }
 }

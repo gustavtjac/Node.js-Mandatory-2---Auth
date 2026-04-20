@@ -15,12 +15,12 @@ Express 5 backend. Handles authentication, sessions, and serves the built Svelte
 
 ## API Endpoints
 
-| Method | Path | Auth required | Description |
-|---|---|---|---|
-| `POST` | `/auth/register` | No | Register a new user |
-| `POST` | `/auth/login` | No | Log in, starts a session |
-| `POST` | `/auth/logout` | Yes | Destroy the current session |
-| `GET` | `/auth/me` | Yes | Return the session user |
+| Method | Path             | Auth required | Description                 |
+| ------ | ---------------- | ------------- | --------------------------- |
+| `POST` | `/auth/register` | No            | Register a new user         |
+| `POST` | `/auth/login`    | No            | Log in, starts a session    |
+| `POST` | `/auth/logout`   | Yes           | Destroy the current session |
+| `GET`  | `/auth/me`       | Yes           | Return the session user     |
 
 Auth-required endpoints use the `isLoggedIn` middleware (`middleware/authMiddleWare.js`), which returns `401` if no session exists.
 
@@ -51,12 +51,12 @@ ADMIN_PASSWORD=your_admin_password
 PORT=8080
 ```
 
-| Variable | Required | Default | Description |
-|---|---|---|---|
-| `SESSION_SECRET` | Yes | — | Secret used to sign session cookies |
-| `RESEND_API_KEY` | Yes | — | API key for sending registration emails |
-| `ADMIN_PASSWORD` | No | `admin` | Password for the seeded admin user |
-| `PORT` | No | `8080` | Port the server listens on |
+| Variable         | Required | Default | Description                             |
+| ---------------- | -------- | ------- | --------------------------------------- |
+| `SESSION_SECRET` | Yes      | —       | Secret used to sign session cookies     |
+| `RESEND_API_KEY` | Yes      | —       | API key for sending registration emails |
+| `ADMIN_PASSWORD` | No       | `admin` | Password for the seeded admin user      |
+| `PORT`           | No       | `8080`  | Port the server listens on              |
 
 ## Scripts
 
@@ -67,3 +67,5 @@ npm run database:update  # Run migrations (create tables if not exist)
 npm run database:create  # Reset and seed database
 npm run lint             # Run ESLint
 ```
+
+> Run `npm run format` from the project root to format all files with Prettier.

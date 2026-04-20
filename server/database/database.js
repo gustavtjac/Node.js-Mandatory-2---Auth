@@ -1,16 +1,16 @@
-import 'dotenv/config'
-import { hashPassword } from '../utils/passwordHashing.js';
+import "dotenv/config";
+import { hashPassword } from "../utils/passwordHashing.js";
 
 const ADMIN_PASSWORD = await hashPassword(
-    process.env.ADMIN_PASSWORD ?? "admin"
+  process.env.ADMIN_PASSWORD ?? "admin",
 );
 
-import db from './connection.js'
+import db from "./connection.js";
 
-const deleteMode = process.argv.includes('--delete');
+const deleteMode = process.argv.includes("--delete");
 
 if (deleteMode) {
-    db.exec('DROP TABLE IF EXISTS users');
+  db.exec("DROP TABLE IF EXISTS users");
 }
 
 db.exec(`
@@ -25,7 +25,7 @@ db.exec(`
 `);
 
 if (deleteMode) {
-    db.prepare(
-        'INSERT INTO users (username, password, email, first_name, last_name) VALUES (?, ?, ?, ?, ?)'
-    ).run('admin', ADMIN_PASSWORD, 'admin@test.dk', 'Admin', 'Admin');
+  db.prepare(
+    "INSERT INTO users (username, password, email, first_name, last_name) VALUES (?, ?, ?, ?, ?)",
+  ).run("admin", ADMIN_PASSWORD, "admin@test.dk", "Admin", "Admin");
 }

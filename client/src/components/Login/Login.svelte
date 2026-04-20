@@ -1,7 +1,7 @@
 <script>
   import { fetchPost } from "../../util/fetchUtil.js";
   import { navigate } from 'svelte-routing';
-  import { toast } from 'svelte-sonner'
+  import { toast } from 'svelte-sonner';
   import { checkAuth } from "../../stores/userStore.js";
   let username = "";
   let password = "";
@@ -20,6 +20,7 @@
       toast.success(result.data.successMessage);
       navigate('/dashboard');
     } catch (error) {
+      submitted = false;
       toast.error(error.data.errorMessage)
     }
   };
@@ -36,7 +37,7 @@
     <label for="username">Username</label>
     <input
       id="username"
-      type="username"
+      type="text"
       bind:value={username}
       placeholder="Username"
       required

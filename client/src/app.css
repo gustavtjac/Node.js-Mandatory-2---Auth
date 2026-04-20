@@ -1,24 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
 :root {
-  --red:    #e60012;
+  --red: #e60012;
   --yellow: #ffcc00;
-  --white:  #f8f8f8;
-  --black:  #1a1a2e;
-  --gray:   #3a3a5c;
+  --white: #f8f8f8;
+  --black: #1a1a2e;
+  --gray: #3a3a5c;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   image-rendering: pixelated;
 }
 
-html, body {
+html,
+body {
   min-height: 100%;
   background-color: var(--black);
   background-image:
-    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
@@ -27,40 +30,55 @@ html {
 }
 
 @media screen and (min-width: 48rem) {
-  html { font-size: 12px; }
+  html {
+    font-size: 12px;
+  }
 }
 
 body {
   color: var(--white);
-  font-family: 'Press Start 2P', monospace;
+  font-family: "Press Start 2P", monospace;
   line-height: 1.8;
   margin: 4rem auto 2rem;
   max-width: 52rem;
   padding: 1rem;
 }
 
-h1, h2, h3 {
-  margin: 1.5rem 0 .75rem;
+h1,
+h2,
+h3 {
+  margin: 1.5rem 0 0.75rem;
   line-height: 1.4;
   text-shadow: 3px 3px 0 var(--red);
 }
 
-h1 { font-size: 2.4rem; color: var(--yellow); }
-h2 { font-size: 1.8rem; color: var(--yellow); }
-h3 { font-size: 1.4rem; }
+h1 {
+  font-size: 2.4rem;
+  color: var(--yellow);
+}
+h2 {
+  font-size: 1.8rem;
+  color: var(--yellow);
+}
+h3 {
+  font-size: 1.4rem;
+}
 
 p {
-  font-size: .85rem;
+  font-size: 0.85rem;
   margin-bottom: 1.3rem;
 }
 
-a, a:visited {
+a,
+a:visited {
   color: var(--yellow);
   text-decoration: none;
   border-bottom: 2px solid var(--red);
 }
 
-a:hover, a:focus, a:active {
+a:hover,
+a:focus,
+a:active {
   color: var(--red);
   border-bottom-color: var(--yellow);
 }
@@ -68,14 +86,14 @@ a:hover, a:focus, a:active {
 input {
   background: var(--black);
   color: var(--white);
-  font-family: 'Press Start 2P', monospace;
-  font-size: .75rem;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.75rem;
   border: 3px solid var(--white);
-  padding: .5rem .75rem;
+  padding: 0.5rem 0.75rem;
   outline: none;
   width: 100%;
   box-shadow: 4px 4px 0 var(--gray);
-  transition: box-shadow .1s;
+  transition: box-shadow 0.1s;
 }
 
 input:focus {
@@ -86,15 +104,17 @@ input:focus {
 button {
   background: var(--red);
   color: var(--white);
-  font-family: 'Press Start 2P', monospace;
-  font-size: .75rem;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.75rem;
   border: none;
-  padding: .75rem 1.25rem;
+  padding: 0.75rem 1.25rem;
   cursor: pointer;
   box-shadow: 4px 4px 0 #800000;
   text-transform: uppercase;
-  letter-spacing: .05em;
-  transition: transform .1s, box-shadow .1s;
+  letter-spacing: 0.05em;
+  transition:
+    transform 0.1s,
+    box-shadow 0.1s;
   width: auto;
 }
 

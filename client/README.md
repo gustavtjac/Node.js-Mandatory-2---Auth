@@ -38,6 +38,6 @@ npm run preview   # Preview production build
 npm run lint      # Run ESLint
 ```
 
-## Environment Variables
+## Formatting
 
-Create a `.env` file in this directory if you need to override the API base URL or similar. See `.env.example` for reference.
+Run `npm run format` from the project root to format all client and server files.
