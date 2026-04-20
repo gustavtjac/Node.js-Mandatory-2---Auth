@@ -5,7 +5,7 @@ Express 5 backend. Handles authentication, sessions, and serves the built Svelte
 ## Tech Stack
 
 - [Express 5](https://expressjs.com)
-- [SQLite](https://www.npmjs.com/package/sqlite) via `sqlite3`
+- [better-sqlite3](https://github.com/WiseLibs/better-sqlite3) — fast, synchronous SQLite driver
 - [express-session](https://github.com/expressjs/session) — server-side sessions
 - [bcrypt](https://github.com/kelektiv/node.bcrypt.js) — password hashing
 - [Helmet](https://helmetjs.github.io) — security headers
