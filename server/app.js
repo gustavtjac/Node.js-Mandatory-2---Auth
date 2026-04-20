@@ -12,12 +12,6 @@ app.use(express.json());
 import logger from './utils/LoggerUtil.js';
 import pinoHttp from 'pino-http';
 app.use(pinoHttp({ logger }));
-// import CORS to control which origins can communicate with backend
-import cors from 'cors'
-app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true
-})); 
 // Import express session so we can save user info in sessions.
 import session from 'express-session'
 app.use(session({
@@ -37,7 +31,6 @@ const authLimiter = rateLimit({
     message: { data: { errorMessage: "Too many auth attempts, please try again later" } }
 });
 app.use('/auth', authLimiter);
-
 // A general more foregiving rate limit on all other endpoints
 const generalLimiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
@@ -56,21 +49,19 @@ app.use(helmet())
 import authRouter from './routers/authRouter.js'
 app.use('/auth', authRouter);
 
-
 //SPLAT ENDPOINTS
-
 import path from 'path'
-
+//Catches all API calls that does not exist
+app.get('/api/{*splat}', (req, res) => {
+    res.status(404).send({ data: {errorMessage: `${req.method} ${req.path} does not exist` }});
+});
+//Cover all GET endpoints with sveltes routing - built in wildcard in svelte
 app.get('/{*splat}', (req, res) => {
     res.sendFile(path.resolve('../client/dist/index.html'))
 });
-
-app.get('/{*splat}', (req, res) => {
-    res.send('<div><h1>404</h1><h3>page' + req.path + 'doesnt exist</h3> </div>');
-})
-
+// all other calls that are not GET will get caught here
 app.all('/{*splat}', (req, res) => {
-    res.send({ errorMessage: "the route does not exist for method" + req.method })
+    res.status(404).send({ data: {errorMessage: `${req.method} ${req.path} does not exist` }});
 });
 
 
