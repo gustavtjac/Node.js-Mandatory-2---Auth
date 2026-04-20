@@ -17,15 +17,13 @@
   "scripts": {
     "database:create": "node database/database.js --delete",
     "database:update": "node database/database.js",
-    "start-dev": "npm run database:update && node app.js ",
-    "start-prod": "npm run database:update cross-env PORT=80 NODE_ENV=PROD && node app.js",
+    "start": "npm run database:update && node app.js ",
     "lint": "eslint ."
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "better-sqlite3": "^12.9.0",
     "cors": "^2.8.6",
-    "cross-env": "^10.1.0",
     "dotenv": "^17.4.1",
     "express": "^5.2.1",
     "express-rate-limit": "^8.3.1",

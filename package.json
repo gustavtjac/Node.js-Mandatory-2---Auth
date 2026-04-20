@@ -2,8 +2,7 @@
   "scripts": {
     "install:all": "cd client && npm install && cd ../server && npm install && cd ../ npm install",
     "build:client": "cd client && npm run build",
-    "start:dev": "cd server && npm run start-dev",
-    "start:prod": "cd server && npm run start-prod",
+    "start": "cd server && npm run start",
     "setup": "npm run install:all && npm run build:client",
     "lint": "cd client && npm run lint && cd ../server && npm run lint",
     "format": "prettier --write client/src server"

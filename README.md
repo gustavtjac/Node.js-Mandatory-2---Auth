@@ -26,8 +26,7 @@ The app runs on [http://localhost:8080](http://localhost:8080).
 | `npm run setup` | Install dependencies and build client (first time) |
 | `npm run install:all` | Install dependencies for client, server, and root |
 | `npm run build:client` | Build the Svelte client into `client/dist/` |
-| `npm run start:dev` | Start the Express server on port 8080 |
-| `npm run start:prod` | Start the Express server on port 80 |
+| `npm run start` | Start the Express server (port from `PORT` env, default 8080) |
 | `npm run lint` | Run ESLint on both client and server |
 | `npm run format` | Run Prettier on both client and server |
 

@@ -61,8 +61,7 @@ PORT=8080
 ## Scripts
 
 ```bash
-npm run start-dev        # Start server in dev mode (port 8080)
-npm run start-prod       # Start server in prod mode (port 80)
+npm run start            # Start server (port from PORT env, default 8080)
 npm run database:update  # Run migrations (create tables if not exist)
 npm run database:create  # Reset and seed database
 npm run lint             # Run ESLint
