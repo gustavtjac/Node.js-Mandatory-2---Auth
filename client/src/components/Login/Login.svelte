@@ -47,7 +47,6 @@
       id="password"
       type="password"
       bind:value={password}
-      autocomplete="current-password"
       required
     />
 

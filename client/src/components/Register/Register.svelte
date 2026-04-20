@@ -40,25 +40,25 @@
 
   <form onsubmit={handleSubmit}>
     <label for="username">Username</label>
-    <input id="username" type="text" bind:value={username} placeholder="gustavo1969" autocomplete="username" required />
+    <input id="username" type="text" bind:value={username} placeholder="gustavo1969"  required />
 
     <fieldset>
       <legend>Your name</legend>
       <label for="first-name">First name</label>
-      <input id="first-name" type="text" bind:value={firstName} placeholder="Gustavo" autocomplete="given-name" required />
+      <input id="first-name" type="text" bind:value={firstName} placeholder="Gustavo" required />
 
       <label for="last-name">Last name</label>
-      <input id="last-name" type="text" bind:value={lastName} placeholder="Rock" autocomplete="family-name" required />
+      <input id="last-name" type="text" bind:value={lastName} placeholder="Rock" required />
     </fieldset>
 
     <label for="email">Email</label>
-    <input id="email" type="email" bind:value={email} placeholder="gustavo@roque.com" autocomplete="email" required />
+    <input id="email" type="email" bind:value={email} placeholder="gustavo@roque.com" required />
 
     <label for="password">Password</label>
-    <input id="password" type="password" bind:value={password} autocomplete="new-password" required />
+    <input id="password" type="password" bind:value={password} required />
 
     <label for="confirm-password">Confirm password</label>
-    <input id="confirm-password" type="password" bind:value={confirmPassword} autocomplete="new-password" required />
+    <input id="confirm-password" type="password" bind:value={confirmPassword} required />
 
     <button type="submit">
       {submitted ? 'Creating account…' : 'Create account'}
