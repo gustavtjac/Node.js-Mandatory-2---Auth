@@ -9,26 +9,19 @@ import { isLoggedIn } from '../middleWare/authMiddleWare.js';
 
 router.post('/login', async (req, res) => {
 
-    console.log(req.session.user)
-
     const { username, password } = req.body;
 
     if (!username || !password) {
         return res.status(400).send({
-            data: {
-                errorMessage: "Please fill out Username & Password"
-            }
+            data: { errorMessage: "Please fill out Username & Password" }
         });
     }
-  
-    const foundUserFromDatabase = (
-        await db.all('SELECT * FROM users WHERE username = ?', [username]))[0]
+
+    const foundUserFromDatabase = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
 
     if (!foundUserFromDatabase) {
         return res.status(401).send({
-            data: {
-                errorMessage: "Wrong login information"
-            }
+            data: { errorMessage: "Wrong login information" }
         });
     }
 
@@ -36,18 +29,15 @@ router.post('/login', async (req, res) => {
 
     if (!passwordIsEqual) {
         return res.status(401).send({
-            data: {
-                errorMessage: "Wrong login information"
-            }
+            data: { errorMessage: "Wrong login information" }
         });
     }
+
     const { _password, ...safeUser } = foundUserFromDatabase;
     req.session.user = safeUser;
 
     res.status(200).send({
-        data: {
-            successMessage: "Login succesfull"
-        }
+        data: { successMessage: "Login succesfull" }
     });
 });
 
@@ -56,67 +46,51 @@ router.post('/register', async (req, res) => {
 
     const { username, firstName, lastName, password1, password2, email } = req.body;
 
-    if ((!username || !firstName || !lastName || !password1 || !password2 || !email)) {
+    if (!username || !firstName || !lastName || !password1 || !password2 || !email) {
         return res.status(400).send({
-            data: {
-                errorMessage: "Please fill out all information fields"
-            }
+            data: { errorMessage: "Please fill out all information fields" }
         });
     }
 
     if (password1 !== password2) {
         return res.status(400).send({
-            data: {
-                errorMessage: "Passwords do not match"
-            }
+            data: { errorMessage: "Passwords do not match" }
         });
     }
 
     try {
-        //Check if username exists already
-        const usersWithUsernameFromDatabase = await db.all('SELECT username FROM users WHERE username = ?', [username])
+        const existingUser = db.prepare('SELECT username FROM users WHERE username = ?').get(username);
 
-        console.log(usersWithUsernameFromDatabase)
-
-        if (usersWithUsernameFromDatabase.length > 0) {
+        if (existingUser) {
             return res.status(409).send({
-                data: {
-                    errorMessage: "Username already exists"
-                }
+                data: { errorMessage: "Username already exists" }
             });
         }
 
         const hashedPassword = await hashPassword(password1);
 
-
-        await db.run(
-            'INSERT INTO users (username, first_name, last_name, password, email) VALUES (?,?,?,?,?)',
-            [username, firstName, lastName, hashedPassword, email]
-        );
-
+        db.prepare(
+            'INSERT INTO users (username, first_name, last_name, password, email) VALUES (?, ?, ?, ?, ?)'
+        ).run(username, firstName, lastName, hashedPassword, email);
 
         sendRegisterMail(email).catch(error => {
             logger.error({ error }, 'Register email failed')
         });
 
         return res.status(201).send({
-            data: {
-                successMessage: "Account registered"
-            }
+            data: { successMessage: "Account registered" }
         });
 
     } catch (error) {
         logger.error({ error }, 'Error while registering user')
         return res.status(500).send({
-            data: {
-                errorMessage: "Something went wrong, please try again"
-            }
+            data: { errorMessage: "Something went wrong, please try again" }
         });
-    };
+    }
 });
 
 router.get('/me', isLoggedIn, (req, res) => {
-   res.status(200).json({ data: { user: { ...req.session.user } } });
+    res.status(200).json({ data: { user: { ...req.session.user } } });
 });
 
 router.post('/logout', isLoggedIn, (req, res) => {
